@@ -22,5 +22,9 @@
 - All console tests passed: `runPruneTests()` 4/4, `runNearbyTests()` 7/7, `runSymptomTests()` 8/8.
 - Set up git with a `.gitignore` (ignores `.DS_Store`).
 
+### Deployed to GitHub Pages
+- Pushed the code to the public repo https://github.com/Protofr/oakwatch and turned on GitHub Pages (main branch, / root).
+- Live at **https://protofr.github.io/oakwatch/**. Checked the live site: "Firebase connected" in the console, map loads, and the test report shows.
+
 ### AI usage
 Claude Code (AI) helped build the home screen, map, near-me warning, and symptom check, wrote the first draft of the Firestore security rules, and helped connect and test Firebase and deploy to GitHub Pages. I created and set up the Firebase project, published the security rules, and tested the app.
