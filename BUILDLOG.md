@@ -25,6 +25,13 @@
 ### Deployed to GitHub Pages
 - Pushed the code to the public repo https://github.com/Protofr/oakwatch and turned on GitHub Pages (main branch, / root).
 - Live at **https://protofr.github.io/oakwatch/**. Checked the live site: "Firebase connected" in the console, map loads, and the test report shows.
+- Recreated the GitHub repo with the same files and shorter commit messages, then turned Pages back on. Live site checked again.
+
+### Security + phone check
+- Deleted the test report in the Firebase console. The live map shows 0 reports.
+- Confirmed the published Firestore rules match the custom rules (not test mode).
+- Restricted the Firebase API key to `https://protofr.github.io/*` and `http://localhost:8000/*`.
+- Tested on my iPhone (Add to Home Screen): map, Check near me, and Symptom Check all work.
 
 ### AI usage
-Claude Code (AI) helped build the home screen, map, near-me warning, and symptom check, wrote the first draft of the Firestore security rules, and helped connect and test Firebase and deploy to GitHub Pages. I created and set up the Firebase project, published the security rules, and tested the app.
+Claude Code (AI) helped build the home screen, map, near-me warning, and symptom check, wrote the first draft of the Firestore security rules, and helped connect and test Firebase and deploy to GitHub Pages. I created and set up the Firebase project, published and checked the security rules, restricted the API key, deleted the test report, and tested the app on my iPhone.
