@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="OakWatch">
+  <meta name="theme-color" content="#2f5233">
+
+  <title>OakWatch</title>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <h1 class="app-name">🌳 OakWatch</h1>
+    <p class="tagline">Catch oak wilt early. Protect your neighborhood's trees.</p>
+  </header>
+
+  <main>
+
+    <section id="home" class="screen active">
+      <h2 class="screen-title">What would you like to do?</h2>
+      <p class="home-intro">
+        Oak wilt spreads underground between neighbors' trees. OakWatch helps your whole street catch it early.
+      </p>
+
+      <button class="big-button big-button-main" data-target="neighborhood-map">
+        <span class="big-button-icon" aria-hidden="true">🗺️</span>
+        <span class="big-button-text">
+          <span class="big-button-title">Neighborhood Map</span>
+          <span class="big-button-subtitle">See oak wilt reports near you</span>
+        </span>
+      </button>
+
+      <button class="big-button" data-target="symptom-check">
+        <span class="big-button-icon" aria-hidden="true">🔍</span>
+        <span class="big-button-text">
+          <span class="big-button-title">Symptom Check</span>
+          <span class="big-button-subtitle">Does my oak look sick?</span>
+        </span>
+      </button>
+
+      <button class="big-button" data-target="prune-check">
+        <span class="big-button-icon" aria-hidden="true">✂️</span>
+        <span class="big-button-text">
+          <span class="big-button-title">Safe to Prune?</span>
+          <span class="big-button-subtitle">Check today's risk</span>
+        </span>
+      </button>
+    </section>
+
+    <section id="symptom-check" class="screen">
+      <button class="back-button" data-target="home">← Back</button>
+      <h2 class="screen-title">Symptom Check</h2>
+      <p>Answer 5 quick questions about your oak. It takes about a minute.</p>
+
+      <form id="symptom-form" novalidate>
+        <h3 class="step-title">Step 1: Checklist</h3>
+
+        <fieldset class="question-card">
+          <legend><span class="question-number">Question 1 of 5</span> What kind of oak is it?</legend>
+          <p class="look-for">
+            Live oaks have small, oval, leathery leaves that stay green most of the year.
+            Red oaks (like Texas red oak and Shumard oak) have bigger leaves with pointed lobes.
+          </p>
+          <label class="choice"><input type="radio" name="sc-treeType" value="Live oak"> Live oak</label>
+          <label class="choice"><input type="radio" name="sc-treeType" value="Red oak"> Red oak</label>
+          <label class="choice"><input type="radio" name="sc-treeType" value="Other"> Other</label>
+          <label class="choice"><input type="radio" name="sc-treeType" value="Not sure"> Not sure</label>
+        </fieldset>
+
+        <fieldset class="question-card">
+          <legend><span class="question-number">Question 2 of 5</span> Do you see leaves with yellow or brown VEINS?</legend>
+          <p class="look-for">
+            Look closely at a few leaves. The veins (the thin lines in the leaf) turn yellow, then
+            brown, while the rest of the leaf stays green. On live oaks, this is the clearest sign of oak wilt.
+          </p>
+          <label class="choice"><input type="radio" name="sc-veins" value="yes"> Yes</label>
+          <label class="choice"><input type="radio" name="sc-veins" value="no"> No</label>
+          <label class="choice"><input type="radio" name="sc-veins" value="notsure"> Not sure</label>
+        </fieldset>
+
+        <fieldset class="question-card">
+          <legend><span class="question-number">Question 3 of 5</span> Are leaves browning from the tips or edges?</legend>
+          <p class="look-for">
+            The leaf turns pale or brown starting at the tip or outer edge, moving inward.
+            This is common on red oaks with oak wilt. (Drought can cause it too.)
+          </p>
+          <label class="choice"><input type="radio" name="sc-edges" value="yes"> Yes</label>
+          <label class="choice"><input type="radio" name="sc-edges" value="no"> No</label>
+          <label class="choice"><input type="radio" name="sc-edges" value="notsure"> Not sure</label>
+        </fieldset>
+
+        <fieldset class="question-card">
+          <legend><span class="question-number">Question 4 of 5</span> Is the tree suddenly dropping lots of leaves?</legend>
+          <p class="look-for">
+            Heavy leaf drop over a few weeks, especially in spring or summer when oaks
+            usually keep their leaves. Fallen leaves may still be partly green.
+          </p>
+          <label class="choice"><input type="radio" name="sc-leafDrop" value="yes"> Yes</label>
+          <label class="choice"><input type="radio" name="sc-leafDrop" value="no"> No</label>
+          <label class="choice"><input type="radio" name="sc-leafDrop" value="notsure"> Not sure</label>
+        </fieldset>
+
+        <fieldset class="question-card">
+          <legend><span class="question-number">Question 5 of 5</span> Have nearby oaks died recently?</legend>
+          <p class="look-for">
+            Oak wilt often kills oaks in a group that slowly grows outward, because it spreads
+            through connected roots. Several dead or dying oaks close together is a warning sign.
+          </p>
+          <label class="choice"><input type="radio" name="sc-nearbyDied" value="yes"> Yes</label>
+          <label class="choice"><input type="radio" name="sc-nearbyDied" value="no"> No</label>
+          <label class="choice"><input type="radio" name="sc-nearbyDied" value="notsure"> Not sure</label>
+        </fieldset>
+
+        <h3 class="step-title">Step 2: Add a photo (optional)</h3>
+        <div class="question-card">
+          <p class="privacy-note">
+            <span aria-hidden="true">🔒</span> Your photo never leaves your phone.
+          </p>
+          <label class="secondary-button file-button">
+            <span aria-hidden="true">📷</span> Add a photo (optional)
+            <input type="file" id="symptom-photo" class="visually-hidden" accept="image/*" capture="environment">
+          </label>
+          <img id="photo-preview" class="photo-preview" alt="Your photo of the oak" hidden>
+          <div id="photo-result" aria-live="polite"></div>
+        </div>
+
+        <h3 class="step-title">Step 3: Your result</h3>
+        <div id="symptom-error" class="message message-error" role="alert" hidden></div>
+        <button type="submit" class="primary-button">See my result</button>
+      </form>
+
+      <div id="symptom-result" class="symptom-result" hidden>
+        <div id="symptom-result-card"></div>
+
+        <div id="result-actions-warning" hidden>
+          <a class="primary-button button-link" href="https://texasoakwilt.org/getting-help/vendors" target="_blank" rel="noopener">
+            Find an oak wilt specialist
+          </a>
+          <button type="button" class="secondary-button" id="report-from-check">
+            <span aria-hidden="true">🗺️</span> Report this tree to the neighborhood map
+          </button>
+        </div>
+
+        <div id="result-actions-none" hidden>
+          <div class="question-card">
+            <h4>Keep watching your oaks</h4>
+            <ul>
+              <li>Check a few leaves every couple of weeks in spring and early summer, when oak wilt is easiest to spot.</li>
+              <li>Look for veins turning yellow or brown on live oak leaves.</li>
+              <li>Watch for oaks in your neighborhood dying in a group.</li>
+              <li>Paint every pruning cut and wound right away. Any paint works.</li>
+              <li>If anything changes, take this check again.</li>
+            </ul>
+          </div>
+          <button type="button" class="secondary-button" data-target="prune-check">
+            <span aria-hidden="true">✂️</span> Is it safe to prune today?
+          </button>
+        </div>
+
+        <p class="disclaimer">
+          This is not a diagnosis. Only a lab test or qualified arborist can confirm oak wilt.
+        </p>
+        <button type="button" class="secondary-button" id="start-over-button">Start over</button>
+      </div>
+    </section>
+
+    <section id="prune-check" class="screen">
+      <button class="back-button" data-target="home">← Back</button>
+      <h2 class="screen-title">Safe to Prune?</h2>
+
+      <p class="today-date" id="today-date"></p>
+
+      <div id="risk-card"></div>
+
+      <details class="why-box">
+        <summary>Why does this matter?</summary>
+        <p>
+          Oak wilt is a fungus that kills oak trees, especially live oaks and red oaks.
+          It spreads in two main ways:
+        </p>
+        <ul>
+          <li>
+            <strong>By beetles:</strong> Tiny sap beetles carry the fungus from sick
+            trees. They are drawn to the smell of fresh cuts and wounds on healthy
+            oaks. They are most active in spring.
+          </li>
+          <li>
+            <strong>Underground through roots:</strong> Oaks growing near each other
+            often have connected roots. Once one tree is infected, the fungus can travel
+            through the roots to neighboring trees, even across property lines.
+          </li>
+        </ul>
+        <p>
+          That's why one careless pruning cut can put a whole block of trees at risk.
+        </p>
+      </details>
+
+      <p class="source">
+        Source:
+        <a href="https://www.austintexas.gov/oakwilt" target="_blank" rel="noopener">
+          City of Austin – Oak Wilt
+        </a>
+      </p>
+    </section>
+
+    <section id="neighborhood-map" class="screen">
+      <button class="back-button" data-target="home">← Back</button>
+      <h2 class="screen-title">Neighborhood Map</h2>
+
+      <p class="report-count" id="report-count" aria-live="polite">Loading reports…</p>
+
+      <div id="map-message" class="message" hidden></div>
+
+      <button class="primary-button" id="open-report-button">
+        <span aria-hidden="true">＋</span> Report a Suspected Tree
+      </button>
+
+      <button class="secondary-button" id="near-me-button">
+        <span aria-hidden="true">📍</span> Check near me
+      </button>
+      <div id="near-me-result" class="near-me-result" aria-live="polite"></div>
+
+      <div id="map" aria-label="Map of oak wilt reports"></div>
+
+      <ul class="legend" aria-label="Map legend">
+        <li><span class="report-pin pin-suspected" aria-hidden="true">?</span> Suspected (orange)</li>
+        <li><span class="report-pin pin-confirmed" aria-hidden="true">!</span> Confirmed by an arborist (red)</li>
+        <li><span class="you-dot" aria-hidden="true"></span> You, approximately (blue dot, never saved)</li>
+      </ul>
+
+      <form id="report-form" class="report-form" hidden novalidate>
+        <h3>Report a Suspected Tree</h3>
+
+        <fieldset>
+          <legend>Tree type</legend>
+          <label class="choice"><input type="radio" name="treeType" value="Live oak"> Live oak</label>
+          <label class="choice"><input type="radio" name="treeType" value="Red oak"> Red oak</label>
+          <label class="choice"><input type="radio" name="treeType" value="Other oak"> Other oak</label>
+          <label class="choice"><input type="radio" name="treeType" value="Not sure"> Not sure</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>What I see <span class="hint">(choose at least one)</span></legend>
+          <label class="choice"><input type="checkbox" name="symptoms" value="Yellow or brown veins on leaves"> Yellow or brown veins on leaves</label>
+          <label class="choice"><input type="checkbox" name="symptoms" value="Leaves browning from the edges"> Leaves browning from the edges</label>
+          <label class="choice"><input type="checkbox" name="symptoms" value="Sudden leaf drop"> Sudden leaf drop</label>
+          <label class="choice"><input type="checkbox" name="symptoms" value="Whole tree dying quickly"> Whole tree dying quickly</label>
+          <label class="choice"><input type="checkbox" name="symptoms" value="Other"> Other</label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Status</legend>
+          <label class="choice"><input type="radio" name="status" value="suspected" checked> Suspected</label>
+          <label class="choice"><input type="radio" name="status" value="confirmed"> Confirmed by an arborist</label>
+        </fieldset>
+
+        <label class="field-label" for="note">Note <span class="hint">(optional)</span></label>
+        <textarea id="note" name="note" maxlength="200" rows="3"
+                  placeholder="Example: Big live oak near the trail, leaves turning brown"></textarea>
+        <p class="hint" id="note-counter">0 / 200</p>
+
+        <fieldset>
+          <legend>Location</legend>
+          <p class="privacy-note">
+            <span aria-hidden="true">🔒</span>
+            For privacy, your report's location is shown approximately, not your exact address.
+          </p>
+          <button type="button" class="secondary-button" id="use-location-button">
+            <span aria-hidden="true">📍</span> Use my location
+          </button>
+          <p class="hint">Or tap the map above to place a pin.</p>
+          <p class="location-status" id="location-status">No location chosen yet.</p>
+        </fieldset>
+
+        <div id="form-error" class="message message-error" role="alert" hidden></div>
+
+        <button type="submit" class="primary-button" id="submit-report-button">Submit Report</button>
+        <button type="button" class="secondary-button" id="cancel-report-button">Cancel</button>
+      </form>
+
+      <p class="map-note">
+        Oak wilt spreads through connected roots. If there's a report near you, consider
+        having a qualified arborist check your oaks.
+        <a href="https://texasoakwilt.org/getting-help/vendors" target="_blank" rel="noopener">Find an oak wilt specialist</a>
+      </p>
+      <p class="source">
+        <a href="https://www.austintexas.gov/oakwilt" target="_blank" rel="noopener">
+          See the City of Austin's official oak wilt map
+        </a>
+      </p>
+    </section>
+
+    <section id="about" class="screen">
+      <button class="back-button" data-target="home">← Back</button>
+      <h2 class="screen-title">About OakWatch</h2>
+
+      <div class="about-card">
+        <h3>Why I built it</h3>
+        <p>[WRITE YOUR STORY HERE]</p>
+      </div>
+
+      <div class="about-card">
+        <h3>How OakWatch protects your privacy</h3>
+        <ul>
+          <li>Map reports are rounded to about 100 meters, so they never show an exact home.</li>
+          <li>"Check near me" uses your location only on your phone to measure distances. It is never saved or shared.</li>
+          <li>OakWatch never asks for names, emails, or addresses.</li>
+          <li>Photos in Symptom Check never leave your phone. They are not uploaded or saved anywhere.</li>
+        </ul>
+      </div>
+
+      <div class="about-card">
+        <h3>Sources</h3>
+        <ul>
+          <li><a href="https://www.austintexas.gov/oakwilt" target="_blank" rel="noopener">City of Austin – Oak Wilt</a></li>
+          <li><a href="https://texasoakwilt.org/" target="_blank" rel="noopener">TexasOakWilt.org</a></li>
+          <li><a href="https://tfsweb.tamu.edu/" target="_blank" rel="noopener">Texas A&amp;M Forest Service</a></li>
+        </ul>
+      </div>
+
+      <p class="built-by">Built by Avi Sharma, Liberal Arts and Science Academy</p>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Not a diagnosis. Always confirm with a qualified arborist.</p>
+    <p>
+      <a href="https://texasoakwilt.org/getting-help/vendors" target="_blank" rel="noopener">
+        Find a certified oak wilt specialist
+      </a>
+    </p>
+    <p>
+      <button class="link-button" data-target="about">About OakWatch</button>
+    </p>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore-compat.js"></script>
+
+  <script src="app.js"></script>
+</body>
+</html>
