@@ -1,0 +1,739 @@
+/* ===== COLORS =====
+   We store colors in "variables" so we can change them in one place. */
+:root {
+  --oak-green: #2f5233;       /* main brand color */
+  --oak-green-dark: #1f3822;  /* for hover / pressed */
+  --cream: #faf6ec;           /* page background */
+  --card-white: #ffffff;
+  --text: #222222;
+  --text-soft: #4a4a4a;
+
+  --risk-high-bg: #fde8e8;
+  --risk-high-border: #b3261e;
+  --risk-high-text: #8c1d18;
+
+  --risk-low-bg: #e6f4ea;
+  --risk-low-border: #1e7a3c;
+  --risk-low-text: #145c2c;
+}
+
+/* Makes width/padding math easier to reason about */
+* {
+  box-sizing: border-box;
+}
+
+/* Color the whole page behind everything, so no white strip ever peeks through */
+html {
+  background: var(--cream);
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 1.125rem;   /* 18px: larger than default for easy reading */
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--cream);
+
+  /* Make the page at least as tall as the screen, so the footer sits at the bottom.
+     100dvh = the real visible screen height on phones. 100vh is a backup for older browsers. */
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== iPHONE SAFE AREAS =====
+   env(safe-area-inset-top) is the height of the notch / clock area.
+   env(safe-area-inset-bottom) is the height of the home-bar area.
+   On phones without these, they are 0, so nothing changes. */
+
+/* ===== HEADER ===== */
+.site-header {
+  background: var(--oak-green);
+  color: white;
+  /* Extra top padding so the green fills behind the clock, but the text stays below it */
+  padding: calc(1.5rem + env(safe-area-inset-top)) 1rem 1.5rem;
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+  text-align: center;
+}
+
+.app-name {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.tagline {
+  margin: 0.25rem 0 0;
+  font-size: 1.05rem;
+  opacity: 0.95;
+}
+
+/* ===== MAIN AREA ===== */
+main {
+  flex: 1;            /* grow to fill empty space, pushing the footer to the bottom */
+  width: 100%;
+  max-width: 640px;   /* stops the content getting too wide on desktops */
+  margin: 0 auto;     /* centers it */
+  padding: 1.25rem 1rem;
+  /* Keep content clear of the notch when the phone is turned sideways */
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
+}
+
+.screen-title {
+  font-size: 1.5rem;
+  color: var(--oak-green);
+  margin: 0.5rem 0 1rem;
+}
+
+/* ===== SCREEN SWITCHING =====
+   All screens are hidden by default. The one with "active" is shown. */
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+/* ===== BIG HOME BUTTONS ===== */
+.big-button {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  min-height: 88px;          /* big tap target */
+  margin-bottom: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--card-white);
+  border: 2px solid var(--oak-green);
+  border-radius: 14px;
+  text-align: left;
+  font: inherit;
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.big-button:hover {
+  background: #f0f5f0;
+}
+
+.big-button:active {
+  transform: scale(0.99);
+}
+
+.big-button-icon {
+  font-size: 2.25rem;
+}
+
+.big-button-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.big-button-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--oak-green);
+}
+
+.big-button-subtitle {
+  font-size: 1rem;
+  color: var(--text-soft);
+}
+
+/* The main feature (Neighborhood Map): filled green so it stands out */
+.big-button-main {
+  min-height: 104px;
+  background: var(--oak-green);
+  box-shadow: 0 4px 12px rgba(47, 82, 51, 0.3);
+}
+
+.big-button-main:hover {
+  background: var(--oak-green-dark);
+}
+
+.big-button-main .big-button-title {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.big-button-main .big-button-subtitle {
+  color: #e6efe6;
+}
+
+.home-intro {
+  background: var(--card-white);
+  border-left: 6px solid var(--oak-green);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  margin: 0 0 1.25rem;
+}
+
+/* ===== BACK BUTTON ===== */
+.back-button {
+  min-height: 48px;
+  padding: 0.5rem 1.25rem;
+  background: var(--oak-green);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.back-button:hover {
+  background: var(--oak-green-dark);
+}
+
+/* A clear outline when using the keyboard (Tab key) to move around.
+   :focus-within covers the photo button, whose real input is hidden inside it. */
+button:focus-visible,
+a:focus-visible,
+summary:focus-visible,
+.file-button:focus-within {
+  outline: 3px solid #e0a800;
+  outline-offset: 3px;
+}
+
+/* ===== PRUNE RISK ===== */
+.today-date {
+  font-size: 1.1rem;
+  color: var(--text-soft);
+  margin: 0 0 1rem;
+}
+
+.risk-card {
+  padding: 1.25rem;
+  border-radius: 14px;
+  border-left: 8px solid;   /* thick colored stripe on the left */
+  margin-bottom: 1.25rem;
+}
+
+.risk-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.5rem;
+  font-size: 1.35rem;
+}
+
+.risk-icon {
+  font-size: 1.75rem;
+}
+
+.risk-card p {
+  margin: 0.5rem 0;
+}
+
+.risk-high {
+  background: var(--risk-high-bg);
+  border-color: var(--risk-high-border);
+  color: var(--risk-high-text);
+}
+
+.risk-low {
+  background: var(--risk-low-bg);
+  border-color: var(--risk-low-border);
+  color: var(--risk-low-text);
+}
+
+/* In-between card (orange), used for "Some warning signs" */
+.risk-medium {
+  background: #fff3e0;
+  border-color: #b45309;
+  color: #7a3a00;
+}
+
+/* Links inside colored cards use the card's text color so they stay readable */
+.risk-card a {
+  color: inherit;
+}
+
+.countdown {
+  font-weight: 700;
+}
+
+.paint-reminder {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+/* ===== "WHY DOES THIS MATTER?" ===== */
+.why-box {
+  background: var(--card-white);
+  border-radius: 14px;
+  padding: 0.25rem 1.25rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid #ddd5c0;
+}
+
+.why-box summary {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--oak-green);
+  padding: 0.85rem 0;   /* makes the tap area tall */
+}
+
+.why-box ul {
+  padding-left: 1.25rem;
+}
+
+.why-box li {
+  margin-bottom: 0.5rem;
+}
+
+.source {
+  font-size: 1rem;
+  color: var(--text-soft);
+}
+
+a {
+  color: var(--oak-green);
+  font-weight: 600;
+}
+
+/* ===== NEIGHBORHOOD MAP ===== */
+.report-count {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+}
+
+/* The map box. Leaflet needs it to have a height, or it draws nothing. */
+#map {
+  height: 60vh;
+  height: 60dvh;       /* most of a phone screen, with room to scroll past it */
+  min-height: 320px;
+  border-radius: 14px;
+  border: 2px solid var(--oak-green);
+  margin: 1rem 0;
+}
+
+/* Big green button (Report / Submit) */
+.primary-button {
+  width: 100%;
+  min-height: 56px;
+  padding: 0.75rem 1.25rem;
+  background: var(--oak-green);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.primary-button:hover {
+  background: var(--oak-green-dark);
+}
+
+.primary-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* White button with green outline (Use my location / Cancel) */
+.secondary-button {
+  width: 100%;
+  min-height: 52px;
+  margin-top: 0.75rem;
+  padding: 0.65rem 1.25rem;
+  background: var(--card-white);
+  color: var(--oak-green);
+  border: 2px solid var(--oak-green);
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.secondary-button:hover {
+  background: #f0f5f0;
+}
+
+/* Round map markers. They differ by symbol (? or !) as well as color. */
+.report-pin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  font-weight: 800;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.pin-suspected {
+  background: #f59e0b;   /* orange */
+  color: #3b2400;        /* dark text for strong contrast on orange */
+}
+
+.pin-confirmed {
+  background: #b3261e;   /* red */
+  color: white;
+}
+
+/* The temporary pin while someone is filling out the form */
+.pin-draft {
+  background: var(--oak-green);
+  color: white;
+}
+
+/* Leaflet adds a white square behind custom icons; this removes it */
+.report-marker {
+  background: none;
+  border: none;
+}
+
+.legend {
+  list-style: none;
+  padding: 0.75rem 1rem;
+  margin: 0 0 1.25rem;
+  background: var(--card-white);
+  border-radius: 14px;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.25rem 0;
+}
+
+/* Text inside map popups */
+.popup-title {
+  font-size: 1.1rem;
+  margin: 0 0 0.25rem;
+}
+
+.leaflet-popup-content {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.leaflet-popup-content p {
+  margin: 0.35rem 0;
+}
+
+.leaflet-popup-content ul {
+  margin: 0.25rem 0;
+  padding-left: 1.1rem;
+}
+
+/* ===== REPORT FORM ===== */
+.report-form {
+  background: var(--card-white);
+  border: 2px solid var(--oak-green);
+  border-radius: 14px;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+.report-form h3 {
+  margin: 0 0 0.75rem;
+  color: var(--oak-green);
+  font-size: 1.35rem;
+}
+
+.report-form fieldset {
+  border: none;
+  padding: 0;
+  margin: 0 0 1.25rem;
+}
+
+.report-form legend,
+.field-label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+/* Each choice is a full-width row so it's easy to tap */
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 48px;
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.choice:hover {
+  background: #f0f5f0;
+}
+
+.choice input {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  accent-color: var(--oak-green);
+}
+
+textarea {
+  width: 100%;
+  padding: 0.75rem;
+  font: inherit;
+  border: 2px solid #b9b3a3;
+  border-radius: 10px;
+}
+
+textarea:focus {
+  border-color: var(--oak-green);
+  outline: none;
+}
+
+.hint {
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--text-soft);
+  margin: 0.25rem 0 0;
+}
+
+.privacy-note {
+  background: #eef3ee;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+}
+
+.location-status {
+  font-weight: 600;
+  margin: 0.5rem 0 0;
+}
+
+/* Success / error messages */
+.message {
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  margin: 0 0 1rem;
+  font-weight: 600;
+  background: var(--risk-low-bg);
+  color: var(--risk-low-text);
+  border-left: 6px solid var(--risk-low-border);
+}
+
+.message-error {
+  background: var(--risk-high-bg);
+  color: var(--risk-high-text);
+  border-left-color: var(--risk-high-border);
+}
+
+.map-note {
+  background: var(--card-white);
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  margin: 0 0 1rem;
+}
+
+.map-note a {
+  display: inline-block;
+  margin-top: 0.35rem;
+}
+
+/* ===== CHECK NEAR ME ===== */
+.near-me-result {
+  margin-top: 1rem;
+}
+
+/* Blue dot in the legend (matches the dot Leaflet draws on the map) */
+.you-dot {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  margin: 0 5px;
+  border-radius: 50%;
+  background: #1a73e8;
+  border: 3px solid white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* ===== SYMPTOM CHECK ===== */
+.step-title {
+  color: var(--oak-green);
+  font-size: 1.3rem;
+  margin: 1.5rem 0 0.75rem;
+}
+
+/* One white card per question */
+.question-card {
+  background: var(--card-white);
+  border: 1px solid #ddd5c0;
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  margin: 0 0 1rem;
+  min-width: 0;   /* stops long text from making the card wider than the phone */
+}
+
+.question-card legend {
+  /* float puts the legend INSIDE the card's border instead of on top of it */
+  float: left;
+  width: 100%;
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 0.25rem;
+}
+
+.question-number {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-soft);
+}
+
+/* "What to look for" description under each question */
+.look-for {
+  clear: both;
+  font-size: 1rem;
+  color: var(--text-soft);
+  margin: 0 0 0.5rem;
+}
+
+.question-card h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+  color: var(--oak-green);
+}
+
+.question-card ul {
+  padding-left: 1.25rem;
+  margin: 0;
+}
+
+.question-card li {
+  margin-bottom: 0.4rem;
+}
+
+/* Hides something on screen but keeps it usable by screen readers and keyboards */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.file-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: relative;
+}
+
+.photo-preview {
+  display: block;
+  width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+  margin-top: 1rem;
+  border-radius: 10px;
+  background: #f0ede4;
+}
+
+/* The [hidden] attribute must win over display: block above */
+.photo-preview[hidden] {
+  display: none;
+}
+
+.symptom-result {
+  margin-top: 1.5rem;
+}
+
+/* Lets a link look exactly like a big button */
+.button-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+}
+
+.button-link:hover {
+  color: white;
+}
+
+.disclaimer {
+  font-weight: 600;
+  margin: 1.25rem 0 0;
+}
+
+/* ===== ABOUT ===== */
+.about-card {
+  background: var(--card-white);
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  margin: 0 0 1rem;
+}
+
+.about-card h3 {
+  margin: 0 0 0.5rem;
+  color: var(--oak-green);
+}
+
+.about-card ul {
+  padding-left: 1.25rem;
+  margin: 0;
+}
+
+.about-card li {
+  margin-bottom: 0.4rem;
+}
+
+.built-by {
+  text-align: center;
+  font-weight: 600;
+  color: var(--oak-green);
+}
+
+/* A button that looks like a link (used for "About OakWatch" in the footer) */
+.link-button {
+  min-height: 44px;
+  padding: 0.5rem 0.75rem;
+  background: none;
+  border: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--oak-green);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  text-align: center;
+  /* Extra bottom padding so the footer text isn't hidden behind the iPhone home bar */
+  padding: 1.5rem 1rem calc(2rem + env(safe-area-inset-bottom));
+  font-size: 1rem;
+  color: var(--text-soft);
+  border-top: 1px solid #ddd5c0;
+}
+
+.site-footer p {
+  margin: 0.25rem 0;
+}
+
+/* ===== BIGGER SCREENS =====
+   We design for phones first. This only kicks in on wider screens. */
+@media (min-width: 700px) {
+  .app-name {
+    font-size: 2.5rem;
+  }
+
+  main {
+    padding-top: 2rem;
+  }
+}
