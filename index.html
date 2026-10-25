@@ -6,9 +6,10 @@
 
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="OakWatch">
-  <meta name="theme-color" content="#2f5233">
+  <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 
   <title>OakWatch</title>
 
@@ -18,51 +19,84 @@
 </head>
 <body>
 
-  <header class="site-header">
-    <h1 class="app-name">🌳 OakWatch</h1>
-    <p class="tagline">Catch oak wilt early. Protect your neighborhood's trees.</p>
-  </header>
-
   <main>
 
     <section id="home" class="screen active">
-      <h2 class="screen-title">What would you like to do?</h2>
-      <p class="home-intro">
+      <h1 class="large-title home-title">OakWatch</h1>
+      <p class="home-tagline">Catch oak wilt early. Protect your neighborhood's trees.</p>
+
+      <ul class="group">
+        <li>
+          <button class="row row-featured" data-target="neighborhood-map">
+            <span class="row-icon icon-green" aria-hidden="true">🗺️</span>
+            <span class="row-text">
+              <span class="row-title">Neighborhood Map</span>
+              <span class="row-subtitle">See oak wilt reports near you</span>
+            </span>
+            <span class="row-chevron" aria-hidden="true">›</span>
+          </button>
+        </li>
+      </ul>
+      <p class="group-footer">
         Oak wilt spreads underground between neighbors' trees. OakWatch helps your whole street catch it early.
       </p>
 
-      <button class="big-button big-button-main" data-target="neighborhood-map">
-        <span class="big-button-icon" aria-hidden="true">🗺️</span>
-        <span class="big-button-text">
-          <span class="big-button-title">Neighborhood Map</span>
-          <span class="big-button-subtitle">See oak wilt reports near you</span>
-        </span>
-      </button>
+      <h2 class="group-header">Check your trees</h2>
+      <ul class="group">
+        <li>
+          <button class="row" data-target="symptom-check">
+            <span class="row-icon icon-orange" aria-hidden="true">🔍</span>
+            <span class="row-text">
+              <span class="row-title">Symptom Check</span>
+              <span class="row-subtitle">Does my oak look sick?</span>
+            </span>
+            <span class="row-chevron" aria-hidden="true">›</span>
+          </button>
+        </li>
+        <li>
+          <button class="row" data-target="prune-check">
+            <span class="row-icon icon-blue" aria-hidden="true">✂️</span>
+            <span class="row-text">
+              <span class="row-title">Safe to Prune?</span>
+              <span class="row-subtitle">Check today's risk</span>
+            </span>
+            <span class="row-chevron" aria-hidden="true">›</span>
+          </button>
+        </li>
+      </ul>
 
-      <button class="big-button" data-target="symptom-check">
-        <span class="big-button-icon" aria-hidden="true">🔍</span>
-        <span class="big-button-text">
-          <span class="big-button-title">Symptom Check</span>
-          <span class="big-button-subtitle">Does my oak look sick?</span>
-        </span>
-      </button>
-
-      <button class="big-button" data-target="prune-check">
-        <span class="big-button-icon" aria-hidden="true">✂️</span>
-        <span class="big-button-text">
-          <span class="big-button-title">Safe to Prune?</span>
-          <span class="big-button-subtitle">Check today's risk</span>
-        </span>
-      </button>
+      <h2 class="group-header">More</h2>
+      <ul class="group">
+        <li>
+          <a class="row" href="https://texasoakwilt.org/getting-help/vendors" target="_blank" rel="noopener">
+            <span class="row-icon icon-red" aria-hidden="true">🌳</span>
+            <span class="row-text">
+              <span class="row-title">Find an Oak Wilt Specialist</span>
+            </span>
+            <span class="row-chevron" aria-hidden="true">↗</span>
+          </a>
+        </li>
+        <li>
+          <button class="row" data-target="about">
+            <span class="row-icon icon-gray" aria-hidden="true">ℹ️</span>
+            <span class="row-text">
+              <span class="row-title">About OakWatch</span>
+            </span>
+            <span class="row-chevron" aria-hidden="true">›</span>
+          </button>
+        </li>
+      </ul>
     </section>
 
     <section id="symptom-check" class="screen">
-      <button class="back-button" data-target="home">← Back</button>
-      <h2 class="screen-title">Symptom Check</h2>
-      <p>Answer 5 quick questions about your oak. It takes about a minute.</p>
+      <nav class="nav-bar">
+        <button class="back-button" data-target="home"><span aria-hidden="true">‹</span> OakWatch</button>
+      </nav>
+      <h2 class="large-title">Symptom Check</h2>
+      <p class="screen-intro">Answer 5 quick questions about your oak. It takes about a minute.</p>
 
       <form id="symptom-form" novalidate>
-        <h3 class="step-title">Step 1: Checklist</h3>
+        <h3 class="group-header">Step 1: Checklist</h3>
 
         <fieldset class="question-card">
           <legend><span class="question-number">Question 1 of 5</span> What kind of oak is it?</legend>
@@ -120,22 +154,29 @@
           <label class="choice"><input type="radio" name="sc-nearbyDied" value="notsure"> Not sure</label>
         </fieldset>
 
-        <h3 class="step-title">Step 2: Add a photo (optional)</h3>
+        <h3 class="group-header">Step 2: Add a leaf photo (optional)</h3>
         <div class="question-card">
           <p class="privacy-note">
             <span aria-hidden="true">🔒</span> Your photo never leaves your phone.
           </p>
-          <label class="secondary-button file-button">
-            <span aria-hidden="true">📷</span> Add a photo (optional)
-            <input type="file" id="symptom-photo" class="visually-hidden" accept="image/*" capture="environment">
-          </label>
+          <div class="button-pair">
+            <label class="secondary-button file-button">
+              <span aria-hidden="true">📷</span> Take Photo
+              <input type="file" id="symptom-photo-camera" class="visually-hidden" accept="image/*" capture="environment">
+            </label>
+            <label class="secondary-button file-button">
+              <span aria-hidden="true">🖼️</span> Photo Library
+              <input type="file" id="symptom-photo-library" class="visually-hidden" accept="image/*">
+            </label>
+          </div>
+          <p class="hint">For the best result, get close to one leaf in good light.</p>
           <img id="photo-preview" class="photo-preview" alt="Your photo of the oak" hidden>
           <div id="photo-result" aria-live="polite"></div>
         </div>
 
-        <h3 class="step-title">Step 3: Your result</h3>
+        <h3 class="group-header">Step 3: Your result</h3>
         <div id="symptom-error" class="message message-error" role="alert" hidden></div>
-        <button type="submit" class="primary-button">See my result</button>
+        <button type="submit" class="primary-button">See My Result</button>
       </form>
 
       <div id="symptom-result" class="symptom-result" hidden>
@@ -143,10 +184,10 @@
 
         <div id="result-actions-warning" hidden>
           <a class="primary-button button-link" href="https://texasoakwilt.org/getting-help/vendors" target="_blank" rel="noopener">
-            Find an oak wilt specialist
+            Find an Oak Wilt Specialist
           </a>
           <button type="button" class="secondary-button" id="report-from-check">
-            <span aria-hidden="true">🗺️</span> Report this tree to the neighborhood map
+            <span aria-hidden="true">🗺️</span> Report This Tree to the Map
           </button>
         </div>
 
@@ -162,20 +203,22 @@
             </ul>
           </div>
           <button type="button" class="secondary-button" data-target="prune-check">
-            <span aria-hidden="true">✂️</span> Is it safe to prune today?
+            <span aria-hidden="true">✂️</span> Is It Safe to Prune Today?
           </button>
         </div>
 
         <p class="disclaimer">
           This is not a diagnosis. Only a lab test or qualified arborist can confirm oak wilt.
         </p>
-        <button type="button" class="secondary-button" id="start-over-button">Start over</button>
+        <button type="button" class="secondary-button" id="start-over-button">Start Over</button>
       </div>
     </section>
 
     <section id="prune-check" class="screen">
-      <button class="back-button" data-target="home">← Back</button>
-      <h2 class="screen-title">Safe to Prune?</h2>
+      <nav class="nav-bar">
+        <button class="back-button" data-target="home"><span aria-hidden="true">‹</span> OakWatch</button>
+      </nav>
+      <h2 class="large-title">Safe to Prune?</h2>
 
       <p class="today-date" id="today-date"></p>
 
@@ -213,8 +256,10 @@
     </section>
 
     <section id="neighborhood-map" class="screen">
-      <button class="back-button" data-target="home">← Back</button>
-      <h2 class="screen-title">Neighborhood Map</h2>
+      <nav class="nav-bar">
+        <button class="back-button" data-target="home"><span aria-hidden="true">‹</span> OakWatch</button>
+      </nav>
+      <h2 class="large-title">Neighborhood Map</h2>
 
       <p class="report-count" id="report-count" aria-live="polite">Loading reports…</p>
 
@@ -225,7 +270,7 @@
       </button>
 
       <button class="secondary-button" id="near-me-button">
-        <span aria-hidden="true">📍</span> Check near me
+        <span aria-hidden="true">📍</span> Check Near Me
       </button>
       <div id="near-me-result" class="near-me-result" aria-live="polite"></div>
 
@@ -275,7 +320,7 @@
             For privacy, your report's location is shown approximately, not your exact address.
           </p>
           <button type="button" class="secondary-button" id="use-location-button">
-            <span aria-hidden="true">📍</span> Use my location
+            <span aria-hidden="true">📍</span> Use My Location
           </button>
           <p class="hint">Or tap the map above to place a pin.</p>
           <p class="location-status" id="location-status">No location chosen yet.</p>
@@ -300,8 +345,10 @@
     </section>
 
     <section id="about" class="screen">
-      <button class="back-button" data-target="home">← Back</button>
-      <h2 class="screen-title">About OakWatch</h2>
+      <nav class="nav-bar">
+        <button class="back-button" data-target="home"><span aria-hidden="true">‹</span> OakWatch</button>
+      </nav>
+      <h2 class="large-title">About</h2>
 
       <div class="about-card">
         <h3>Why I built it</h3>
@@ -319,11 +366,26 @@
       </div>
 
       <div class="about-card">
+        <h3>How the photo check works</h3>
+        <p>
+          A small image model, trained with Google's Teachable Machine, runs right on your phone.
+          It learned from 116 expert-identified photos in three groups: oak wilt, healthy oak leaves,
+          and other leaf problems that look similar. It can be wrong, so it only adds to your checklist answers.
+        </p>
+        <p class="hint">
+          Training photos from Bugwood.org (USDA Forest Service and other photographers),
+          used under a Creative Commons Attribution license.
+          <a href="https://github.com/Protofr/oakwatch/blob/main/PHOTO_CREDITS.md" target="_blank" rel="noopener">See every photo credit</a>
+        </p>
+      </div>
+
+      <div class="about-card">
         <h3>Sources</h3>
         <ul>
           <li><a href="https://www.austintexas.gov/oakwilt" target="_blank" rel="noopener">City of Austin – Oak Wilt</a></li>
           <li><a href="https://texasoakwilt.org/" target="_blank" rel="noopener">TexasOakWilt.org</a></li>
           <li><a href="https://tfsweb.tamu.edu/" target="_blank" rel="noopener">Texas A&amp;M Forest Service</a></li>
+          <li><a href="https://www.forestryimages.org/" target="_blank" rel="noopener">Bugwood / ForestryImages.org</a></li>
         </ul>
       </div>
 
@@ -334,14 +396,6 @@
 
   <footer class="site-footer">
     <p>Not a diagnosis. Always confirm with a qualified arborist.</p>
-    <p>
-      <a href="https://texasoakwilt.org/getting-help/vendors" target="_blank" rel="noopener">
-        Find a certified oak wilt specialist
-      </a>
-    </p>
-    <p>
-      <button class="link-button" data-target="about">About OakWatch</button>
-    </p>
   </footer>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"

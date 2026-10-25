@@ -613,7 +613,7 @@ function runNearbyTests() {
   printTestResult(describeDistance(20) === "less than 50 m", "20 m shows as \"less than 50 m\"");
 }
 
-const TM_MODEL_URL = "";
+const TM_MODEL_URL = "https://teachablemachine.withgoogle.com/models/sbME8MtpC/";
 
 const TM_OAK_WILT_CLASS = "Oak wilt";
 
@@ -623,7 +623,8 @@ const TFJS_URL = "https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.mi
 const TM_IMAGE_URL = "https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.5/dist/teachablemachine-image.min.js";
 
 const symptomForm = document.getElementById("symptom-form");
-const photoInput = document.getElementById("symptom-photo");
+const cameraInput = document.getElementById("symptom-photo-camera");
+const libraryInput = document.getElementById("symptom-photo-library");
 const photoPreview = document.getElementById("photo-preview");
 const photoResult = document.getElementById("photo-result");
 
@@ -664,8 +665,15 @@ function getCheckedValue(name) {
   return checked === null ? null : checked.value;
 }
 
-photoInput.addEventListener("change", function () {
-  const file = photoInput.files[0];
+cameraInput.addEventListener("change", function () {
+  handlePhoto(cameraInput);
+});
+libraryInput.addEventListener("change", function () {
+  handlePhoto(libraryInput);
+});
+
+function handlePhoto(input) {
+  const file = input.files[0];
   photoMatch = false;
   photoResult.innerHTML = "";
   if (!file) {
@@ -685,7 +693,9 @@ photoInput.addEventListener("change", function () {
   };
   photoPreview.src = URL.createObjectURL(file);
   photoPreview.hidden = false;
-});
+
+  input.value = "";
+}
 
 function showPhotoResult(text, withDisclaimer) {
   photoResult.innerHTML = "";
