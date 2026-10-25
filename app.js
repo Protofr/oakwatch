@@ -73,19 +73,18 @@ function showPruneRisk() {
   if (risk === "high") {
     card.innerHTML =
       '<div class="risk-card risk-high" role="status">' +
-        '<h3><span class="risk-icon" aria-hidden="true">⚠️</span> High risk: Avoid pruning or wounding oaks right now.</h3>' +
-        "<p>In spring, sap beetles that spread the oak wilt fungus are most active. " +
-        "They are attracted to fresh cuts and wounds on oak trees.</p>" +
-        '<p class="countdown">Lower-risk season starts in ' + pluralDays(daysLeft) + ".</p>" +
-        '<p class="paint-reminder">If a tree is wounded by accident (storm damage, mower, etc.), ' +
-        "paint the wound immediately. Any paint works.</p>" +
+        '<h3><span class="risk-icon" aria-hidden="true">⚠️</span> High risk: don\'t prune oaks right now.</h3>' +
+        "<p>Sap beetles that carry oak wilt are out in spring, and fresh cuts draw them in.</p>" +
+        '<p class="countdown">Safer season starts in ' + pluralDays(daysLeft) + ".</p>" +
+        '<p class="paint-reminder">If a branch breaks or a mower nicks the bark, paint over it right away. ' +
+        "Any paint works.</p>" +
       "</div>";
   } else {
     card.innerHTML =
       '<div class="risk-card risk-low" role="status">' +
-        '<h3><span class="risk-icon" aria-hidden="true">✅</span> Lower risk: Best time to prune oaks.</h3>' +
-        '<p class="paint-reminder">🖌️ Paint every pruning cut and wound immediately. Any paint works.</p>' +
-        '<p class="countdown">High-risk season starts in ' + pluralDays(daysLeft) + ".</p>" +
+        '<h3><span class="risk-icon" aria-hidden="true">✅</span> Low risk: good time to prune.</h3>' +
+        '<p class="paint-reminder">🖌️ Still paint every cut right away. Any paint works.</p>' +
+        '<p class="countdown">Risky season starts again in ' + pluralDays(daysLeft) + ".</p>" +
       "</div>";
   }
 }
@@ -215,7 +214,7 @@ function loadReports() {
     function (error) {
       console.error("Could not load reports:", error);
       document.getElementById("report-count").textContent =
-        "Sorry, we couldn't load reports right now. Please try again later.";
+        "Couldn't load reports. Try again in a bit.";
     }
   );
 }
@@ -234,7 +233,7 @@ function buildPopupHtml(report) {
 
   let html = '<h3 class="popup-title">' + escapeHtml(report.treeType) + "</h3>";
   html += "<p><strong>Status:</strong> " + statusText + "</p>";
-  html += "<p><strong>Signs seen:</strong></p><ul>";
+  html += "<p><strong>What they saw:</strong></p><ul>";
   symptoms.forEach(function (symptom) {
     html += "<li>" + escapeHtml(symptom) + "</li>";
   });
@@ -325,14 +324,14 @@ function setChosenLocation(lat, lng) {
   }
 
   document.getElementById("location-status").textContent =
-    "✓ Location set (approximate). Tap the map again to move it.";
+    "✓ Pin placed (approximate). Tap the map again to move it.";
 }
 
 document.getElementById("use-location-button").addEventListener("click", function () {
   const status = document.getElementById("location-status");
 
   if (!("geolocation" in navigator)) {
-    status.textContent = "Your browser can't share location. Please tap the map instead.";
+    status.textContent = "Location isn't available here. Tap the map instead.";
     return;
   }
 
@@ -346,10 +345,10 @@ document.getElementById("use-location-button").addEventListener("click", functio
     function (error) {
       if (error.code === error.PERMISSION_DENIED) {
         status.textContent =
-          "Location permission was turned off. No problem! Just tap the map where the tree is.";
+          "Location is turned off. Just tap the map where the tree is.";
       } else {
         status.textContent =
-          "We couldn't find your location. Please tap the map where the tree is.";
+          "Couldn't find your location. Tap the map where the tree is.";
       }
     },
     { enableHighAccuracy: true, timeout: 10000 }
@@ -369,12 +368,12 @@ reportForm.addEventListener("submit", function (event) {
   });
 
   const problems = [];
-  if (treeTypeInput === null) problems.push("Please choose a tree type.");
-  if (symptoms.length === 0) problems.push("Please check at least one thing you see.");
+  if (treeTypeInput === null) problems.push("Pick a tree type.");
+  if (symptoms.length === 0) problems.push("Check at least one thing you saw.");
   if (chosenLocation === null) {
-    problems.push("Please tap \"Use my location\" or tap the map to place a pin.");
+    problems.push("Tap \"Use My Location\" or tap the map to drop a pin.");
   } else if (!isInReportArea(chosenLocation.lat, chosenLocation.lng)) {
-    problems.push("OakWatch only accepts reports in the Austin area. Please place the pin closer to Austin.");
+    problems.push("OakWatch only takes reports around Austin. Move the pin closer to Austin.");
   }
 
   if (problems.length > 0) {
@@ -404,14 +403,14 @@ reportForm.addEventListener("submit", function (event) {
   db.collection("reports").add(newReport)
     .then(function () {
       closeReportForm();
-      showMapMessage("Thank you! Your report was added to the map.");
+      showMapMessage("Thanks! Your report is on the map.");
     })
     .catch(function (error) {
       console.error("Could not save report:", error);
       if (error.code === "permission-denied") {
-        showFormError("Sorry, your report didn't pass our safety checks, so it wasn't saved. Please check your answers and try again.");
+        showFormError("Your report didn't pass our checks, so it wasn't saved. Look over your answers and try again.");
       } else {
-        showFormError("Sorry, your report couldn't be saved. Please check your internet connection and try again.");
+        showFormError("Couldn't save your report. Check your internet and try again.");
       }
     })
     .finally(function () {
@@ -504,15 +503,15 @@ function showNearMeResult(nearby) {
     nearMeResult.innerHTML =
       '<div class="risk-card risk-high" role="status">' +
         '<h3><span class="risk-icon" aria-hidden="true">⚠️</span> ' + headline + "</h3>" +
-        "<p>Oak wilt can spread through connected roots. Consider having a qualified arborist check your oaks.</p>" +
+        "<p>Oak wilt can travel through connected roots, so it's worth having an arborist look at your oaks.</p>" +
         '<p><a href="https://texasoakwilt.org/getting-help/vendors" target="_blank" rel="noopener">Find an oak wilt specialist</a></p>' +
-        '<p class="hint">Distances are approximate, because report locations are rounded for privacy.</p>' +
+        '<p class="hint">Distances are rough because report locations are rounded for privacy.</p>' +
       "</div>";
   } else {
     nearMeResult.innerHTML =
       '<div class="risk-card risk-low" role="status">' +
         '<h3><span class="risk-icon" aria-hidden="true">✅</span> No reports within ' + NEAR_ME_RADIUS + " m of you.</h3>" +
-        '<p class="paint-reminder">Keep an eye on your oaks and paint every pruning cut.</p>' +
+        '<p class="paint-reminder">Keep an eye on your oaks, and paint every pruning cut.</p>' +
       "</div>";
   }
 }
@@ -538,7 +537,7 @@ function showYouDot(lat, lng) {
     fillColor: "#1a73e8",
     fillOpacity: 1
   }).addTo(map);
-  youMarker.bindPopup("You are about here (approximate). Your location is never saved.");
+  youMarker.bindPopup("You're about here. This is never saved.");
 
   map.fitBounds(youCircle.getBounds());
 }
@@ -549,11 +548,11 @@ document.getElementById("near-me-button").addEventListener("click", function () 
     return;
   }
   if (!reportsLoaded) {
-    showNearMeMessage("Reports are still loading. Please try again in a moment.", true);
+    showNearMeMessage("Reports are still loading. Try again in a few seconds.", true);
     return;
   }
   if (!("geolocation" in navigator)) {
-    showNearMeMessage("Your browser can't share location, so we can't check near you.", true);
+    showNearMeMessage("Location isn't available here, so we can't check near you.", true);
     return;
   }
 
@@ -572,12 +571,12 @@ document.getElementById("near-me-button").addEventListener("click", function () 
     function (error) {
       if (error.code === error.PERMISSION_DENIED) {
         showNearMeMessage(
-          "Location permission was turned off, so we can't check near you. You can still look at the map for reports on your street.",
+          "Location is turned off, so we can't check near you. You can still look at the map for reports on your street.",
           true
         );
       } else {
         showNearMeMessage(
-          "We couldn't find your location. Please try again, or look at the map for reports on your street.",
+          "Couldn't find your location. Try again, or look at the map for your street.",
           true
         );
       }
@@ -686,7 +685,7 @@ function handlePhoto(input) {
 
   photoPreview.onload = function () {
     if (TM_MODEL_URL === "") {
-      showPhotoResult("Photo saved for your reference.", false);
+      showPhotoResult("Photo added.", false);
     } else {
       checkPhotoWithModel();
     }
@@ -707,7 +706,7 @@ function showPhotoResult(text, withDisclaimer) {
   if (withDisclaimer) {
     const disclaimer = document.createElement("p");
     disclaimer.className = "hint";
-    disclaimer.textContent = "This is not a diagnosis. Only a lab test or qualified arborist can confirm oak wilt.";
+    disclaimer.textContent = "Not a diagnosis. Only a lab test or an arborist can confirm oak wilt.";
     photoResult.appendChild(disclaimer);
   }
 }
@@ -760,14 +759,14 @@ function checkPhotoWithModel() {
 
       if (top.className === TM_OAK_WILT_CLASS) {
         photoMatch = top.probability >= TM_MIN_CONFIDENCE;
-        showPhotoResult("Our model thinks this looks similar to oak wilt symptoms (" + percent + "% match).", true);
+        showPhotoResult("This looks like oak wilt to our model (" + percent + "% sure).", true);
       } else {
-        showPhotoResult("Our model thinks this looks most similar to \"" + top.className + "\" (" + percent + "% match).", true);
+        showPhotoResult("This looks most like \"" + top.className + "\" to our model (" + percent + "% sure).", true);
       }
     })
     .catch(function (error) {
       console.error("Photo check failed:", error);
-      showPhotoResult("We couldn't run the photo check right now. Your checklist answers still work.", false);
+      showPhotoResult("The photo check didn't work this time. Your answers still count.", false);
     });
 }
 
@@ -791,7 +790,7 @@ symptomForm.addEventListener("submit", function (event) {
 
   const symptomError = document.getElementById("symptom-error");
   if (missing.length > 0) {
-    symptomError.textContent = "Please answer every question. Still missing: question " + missing.join(", ") + ".";
+    symptomError.textContent = "Answer every question first. Still missing: question " + missing.join(", ") + ".";
     symptomError.hidden = false;
     return;
   }
@@ -808,22 +807,22 @@ function showSymptomResult(score) {
     card.innerHTML =
       '<div class="risk-card risk-high" role="status">' +
         '<h3><span class="risk-icon" aria-hidden="true">⚠️</span> Several warning signs</h3>' +
-        "<p>Your answers match common signs of oak wilt. Have a qualified arborist look at this tree soon. " +
-        "Until then, don't prune or wound it.</p>" +
-        "<p>Oak wilt spreads through connected roots, so reporting this tree helps your neighbors check their oaks too.</p>" +
+        "<p>Your answers line up with common signs of oak wilt. Get an arborist to look at this tree soon, " +
+        "and don't prune it until then.</p>" +
+        "<p>Oak wilt spreads through the roots, so putting this tree on the map gives your neighbors a heads-up.</p>" +
       "</div>";
   } else if (score === "some") {
     card.innerHTML =
       '<div class="risk-card risk-medium" role="status">' +
         '<h3><span class="risk-icon" aria-hidden="true">🔎</span> Some warning signs</h3>' +
-        "<p>One of your answers matches a sign of oak wilt. Drought, heat, and other tree problems can look similar, " +
-        "so keep watching this tree. If it gets worse, or you're worried, have a qualified arborist take a look.</p>" +
+        "<p>One of your answers matches a sign of oak wilt. Drought and heat can cause the same thing, " +
+        "so keep watching this tree. If it gets worse, call an arborist.</p>" +
       "</div>";
   } else {
     card.innerHTML =
       '<div class="risk-card risk-low" role="status">' +
         '<h3><span class="risk-icon" aria-hidden="true">✅</span> No common warning signs</h3>' +
-        "<p>Your answers don't match the most common signs of oak wilt. That's good news! " +
+        "<p>Your answers don't match the usual signs of oak wilt. " +
         "Keep checking your oaks, especially in spring and early summer.</p>" +
       "</div>";
   }

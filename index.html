@@ -23,7 +23,7 @@
 
     <section id="home" class="screen active">
       <h1 class="large-title home-title">OakWatch</h1>
-      <p class="home-tagline">Catch oak wilt early. Protect your neighborhood's trees.</p>
+      <p class="home-tagline">Spot oak wilt early and warn your neighbors.</p>
 
       <ul class="group">
         <li>
@@ -38,7 +38,7 @@
         </li>
       </ul>
       <p class="group-footer">
-        Oak wilt spreads underground between neighbors' trees. OakWatch helps your whole street catch it early.
+        Oak wilt moves from tree to tree through the roots, right under fences and property lines. The map shows where it's been reported.
       </p>
 
       <h2 class="group-header">Check your trees</h2>
@@ -93,7 +93,7 @@
         <button class="back-button" data-target="home"><span aria-hidden="true">‹</span> OakWatch</button>
       </nav>
       <h2 class="large-title">Symptom Check</h2>
-      <p class="screen-intro">Answer 5 quick questions about your oak. It takes about a minute.</p>
+      <p class="screen-intro">5 questions about your tree. Takes about a minute.</p>
 
       <form id="symptom-form" novalidate>
         <h3 class="group-header">Step 1: Checklist</h3>
@@ -101,8 +101,8 @@
         <fieldset class="question-card">
           <legend><span class="question-number">Question 1 of 5</span> What kind of oak is it?</legend>
           <p class="look-for">
-            Live oaks have small, oval, leathery leaves that stay green most of the year.
-            Red oaks (like Texas red oak and Shumard oak) have bigger leaves with pointed lobes.
+            Live oaks have small, oval, leathery leaves that stay green almost all year.
+            Red oaks (Texas red oak, Shumard oak) have bigger leaves with pointy lobes.
           </p>
           <label class="choice"><input type="radio" name="sc-treeType" value="Live oak"> Live oak</label>
           <label class="choice"><input type="radio" name="sc-treeType" value="Red oak"> Red oak</label>
@@ -111,10 +111,10 @@
         </fieldset>
 
         <fieldset class="question-card">
-          <legend><span class="question-number">Question 2 of 5</span> Do you see leaves with yellow or brown VEINS?</legend>
+          <legend><span class="question-number">Question 2 of 5</span> Are the veins on the leaves turning yellow or brown?</legend>
           <p class="look-for">
-            Look closely at a few leaves. The veins (the thin lines in the leaf) turn yellow, then
-            brown, while the rest of the leaf stays green. On live oaks, this is the clearest sign of oak wilt.
+            Pick a few leaves and look at the thin lines (the veins). With oak wilt they go yellow,
+            then brown, while the rest of the leaf stays green. On live oaks this is the biggest giveaway.
           </p>
           <label class="choice"><input type="radio" name="sc-veins" value="yes"> Yes</label>
           <label class="choice"><input type="radio" name="sc-veins" value="no"> No</label>
@@ -124,8 +124,8 @@
         <fieldset class="question-card">
           <legend><span class="question-number">Question 3 of 5</span> Are leaves browning from the tips or edges?</legend>
           <p class="look-for">
-            The leaf turns pale or brown starting at the tip or outer edge, moving inward.
-            This is common on red oaks with oak wilt. (Drought can cause it too.)
+            The leaf goes pale or brown from the tip or edge inward. Red oaks with oak wilt
+            often do this, but so do trees in a drought.
           </p>
           <label class="choice"><input type="radio" name="sc-edges" value="yes"> Yes</label>
           <label class="choice"><input type="radio" name="sc-edges" value="no"> No</label>
@@ -135,8 +135,9 @@
         <fieldset class="question-card">
           <legend><span class="question-number">Question 4 of 5</span> Is the tree suddenly dropping lots of leaves?</legend>
           <p class="look-for">
-            Heavy leaf drop over a few weeks, especially in spring or summer when oaks
-            usually keep their leaves. Fallen leaves may still be partly green.
+            A lot of leaves falling over a few weeks, in spring or summer when oaks normally hold on to them.
+            The fallen leaves are often still partly green. (Live oaks also drop old leaves every spring
+            as new ones grow in. That part is normal.)
           </p>
           <label class="choice"><input type="radio" name="sc-leafDrop" value="yes"> Yes</label>
           <label class="choice"><input type="radio" name="sc-leafDrop" value="no"> No</label>
@@ -146,8 +147,8 @@
         <fieldset class="question-card">
           <legend><span class="question-number">Question 5 of 5</span> Have nearby oaks died recently?</legend>
           <p class="look-for">
-            Oak wilt often kills oaks in a group that slowly grows outward, because it spreads
-            through connected roots. Several dead or dying oaks close together is a warning sign.
+            Oak wilt usually kills oaks in a cluster that keeps getting bigger, because it travels
+            through the roots. A few dead or dying oaks close together is a red flag.
           </p>
           <label class="choice"><input type="radio" name="sc-nearbyDied" value="yes"> Yes</label>
           <label class="choice"><input type="radio" name="sc-nearbyDied" value="no"> No</label>
@@ -169,7 +170,7 @@
               <input type="file" id="symptom-photo-library" class="visually-hidden" accept="image/*">
             </label>
           </div>
-          <p class="hint">For the best result, get close to one leaf in good light.</p>
+          <p class="hint">Works best up close on one leaf, in daylight.</p>
           <img id="photo-preview" class="photo-preview" alt="Your photo of the oak" hidden>
           <div id="photo-result" aria-live="polite"></div>
         </div>
@@ -195,11 +196,11 @@
           <div class="question-card">
             <h4>Keep watching your oaks</h4>
             <ul>
-              <li>Check a few leaves every couple of weeks in spring and early summer, when oak wilt is easiest to spot.</li>
+              <li>Look at a few leaves every couple of weeks in spring and early summer. That's when oak wilt is easiest to see.</li>
               <li>Look for veins turning yellow or brown on live oak leaves.</li>
-              <li>Watch for oaks in your neighborhood dying in a group.</li>
+              <li>Watch for groups of oaks dying in your neighborhood.</li>
               <li>Paint every pruning cut and wound right away. Any paint works.</li>
-              <li>If anything changes, take this check again.</li>
+              <li>If something changes, run this check again.</li>
             </ul>
           </div>
           <button type="button" class="secondary-button" data-target="prune-check">
@@ -208,7 +209,7 @@
         </div>
 
         <p class="disclaimer">
-          This is not a diagnosis. Only a lab test or qualified arborist can confirm oak wilt.
+          This isn't a diagnosis. Only a lab test or an arborist can confirm oak wilt.
         </p>
         <button type="button" class="secondary-button" id="start-over-button">Start Over</button>
       </div>
@@ -227,23 +228,22 @@
       <details class="why-box">
         <summary>Why does this matter?</summary>
         <p>
-          Oak wilt is a fungus that kills oak trees, especially live oaks and red oaks.
-          It spreads in two main ways:
+          Oak wilt is a fungus that kills oaks, mostly live oaks and red oaks.
+          It spreads two ways:
         </p>
         <ul>
           <li>
-            <strong>By beetles:</strong> Tiny sap beetles carry the fungus from sick
-            trees. They are drawn to the smell of fresh cuts and wounds on healthy
-            oaks. They are most active in spring.
+            <strong>Beetles:</strong> Small sap beetles pick up the fungus from sick trees
+            and carry it to fresh cuts on healthy ones. They're most active in spring.
           </li>
           <li>
-            <strong>Underground through roots:</strong> Oaks growing near each other
-            often have connected roots. Once one tree is infected, the fungus can travel
-            through the roots to neighboring trees, even across property lines.
+            <strong>Roots:</strong> Oaks near each other often have roots that grow together.
+            Once one tree has it, the fungus can move through the roots to the next tree,
+            even into a neighbor's yard.
           </li>
         </ul>
         <p>
-          That's why one careless pruning cut can put a whole block of trees at risk.
+          So one badly timed cut can end up hurting trees all down the block.
         </p>
       </details>
 
@@ -317,12 +317,12 @@
           <legend>Location</legend>
           <p class="privacy-note">
             <span aria-hidden="true">🔒</span>
-            For privacy, your report's location is shown approximately, not your exact address.
+            The map only shows a rough location (about 100 m), never your exact address.
           </p>
           <button type="button" class="secondary-button" id="use-location-button">
             <span aria-hidden="true">📍</span> Use My Location
           </button>
-          <p class="hint">Or tap the map above to place a pin.</p>
+          <p class="hint">Or tap the map to drop a pin.</p>
           <p class="location-status" id="location-status">No location chosen yet.</p>
         </fieldset>
 
@@ -333,8 +333,8 @@
       </form>
 
       <p class="map-note">
-        Oak wilt spreads through connected roots. If there's a report near you, consider
-        having a qualified arborist check your oaks.
+        If there's a report near you, it's worth having an arborist check your oaks,
+        since oak wilt spreads through the roots.
         <a href="https://texasoakwilt.org/getting-help/vendors" target="_blank" rel="noopener">Find an oak wilt specialist</a>
       </p>
       <p class="source">
@@ -356,25 +356,25 @@
       </div>
 
       <div class="about-card">
-        <h3>How OakWatch protects your privacy</h3>
+        <h3>Privacy</h3>
         <ul>
-          <li>Map reports are rounded to about 100 meters, so they never show an exact home.</li>
-          <li>"Check near me" uses your location only on your phone to measure distances. It is never saved or shared.</li>
+          <li>Report locations are rounded to about 100 meters, so no pin points to an exact house.</li>
+          <li>"Check Near Me" uses your location on your phone to measure distances, then forgets it. It's never saved or sent anywhere.</li>
           <li>OakWatch never asks for names, emails, or addresses.</li>
-          <li>Photos in Symptom Check never leave your phone. They are not uploaded or saved anywhere.</li>
+          <li>Symptom Check photos stay on your phone. They're never uploaded.</li>
         </ul>
       </div>
 
       <div class="about-card">
-        <h3>How the photo check works</h3>
+        <h3>The photo check</h3>
         <p>
-          A small image model, trained with Google's Teachable Machine, runs right on your phone.
-          It learned from 116 expert-identified photos in three groups: oak wilt, healthy oak leaves,
-          and other leaf problems that look similar. It can be wrong, so it only adds to your checklist answers.
+          The photo check is a small image model made with Google's Teachable Machine, and it runs on your phone.
+          It was trained on 116 photos identified by forest experts: oak wilt, healthy oak leaves, and other
+          leaf problems that look a lot like oak wilt. It does make mistakes, so it only counts as one checklist answer.
         </p>
         <p class="hint">
-          Training photos from Bugwood.org (USDA Forest Service and other photographers),
-          used under a Creative Commons Attribution license.
+          Training photos come from Bugwood.org (USDA Forest Service and other photographers)
+          under Creative Commons licenses.
           <a href="https://github.com/Protofr/oakwatch/blob/main/PHOTO_CREDITS.md" target="_blank" rel="noopener">See every photo credit</a>
         </p>
       </div>
