@@ -104,8 +104,16 @@ main {
   margin: 0.25rem 0 0.75rem;
 }
 
-.home-title {
+.home-logo {
+  display: block;
+  width: 88px;
+  height: 88px;
   margin-top: calc(2.5rem + env(safe-area-inset-top));
+  border-radius: 20px;
+}
+
+.home-title {
+  margin-top: 0.9rem;
   margin-bottom: 0.15rem;
 }
 
